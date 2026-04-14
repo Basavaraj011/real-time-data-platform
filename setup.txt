@@ -1,0 +1,122 @@
+Day -2 Sys Design.Keep the belwo for context.🎯 Objective
+Build a production‑style real‑time data platform that demonstrates modern backend + data engineering skills, with emphasis on:
+
+Event‑driven architecture
+Kafka as a central, mandatory event backbone
+Schema evolution, idempotency, backfills, and deletes
+Clean separation of ingestion, streaming, analytics, and orchestration
+Practical, interview‑defensible design (not a toy project)
+
+
+🏗️ Target Architecture (Frozen)
+
+
+FastAPI
+→ Ingestion layer only
+→ Auth + schema validation (Pydantic)
+→ No streaming logic
+
+
+Apache Kafka
+→ Central event log (durable, replayable)
+→ Required component
+
+
+Snowflake (Snowpipe Streaming)
+→ Real‑time ingestion into analytics storage
+
+
+Airflow
+→ Orchestration only (ELT, data quality, backfills)
+→ Not used for streaming
+
+
+Docker
+→ Runtime consistency
+→ Services run in phases, not all at once
+
+
+
+📦 Project Scaffold (Current Repo Structure)
+real-time-data-platform/
+├── README.md
+├── ARCHITECTURE.md
+├── CHECKLIST.md
+├── .gitignore
+│
+├── api/
+│   ├── Dockerfile
+│   └── app/
+│       ├── main.py
+│       ├── config.py
+│       ├── dependencies.py
+│       ├── routers/
+│       │   ├── events.py
+│       │   └── health.py
+│       ├── models/
+│       │   ├── event_v1.py
+│       │   └── event_v2.py
+│       ├── services/
+│       │   └── producer_service.py
+│       └── decorators/
+│           └── retry.py
+│
+├── kafka/
+│   ├── connect/
+│   │   └── snowflake-sink.json
+│   └── topics/
+│       ├── events.raw.json
+│       ├── events.retry.json
+│       └── events.dlq.json
+│
+├── airflow/
+│   └── dags/
+│       ├── setup_infra.py
+│       └── transform_curated_tables.py
+│
+├── snowflake/
+│   └── ddl/
+│       ├── raw_tables.sql
+│       └── curated_tables.sql
+│
+└── infra/
+    └── docker-compose.yml
+
+
+This is a scaffold only — most files are placeholders.
+
+
+✅ What You Have Created So Far
+
+✅ Decided and frozen the architecture
+✅ Created the repo scaffold
+✅ Agreed Kafka is mandatory and central
+✅ Decided to skip GitHub issues and labels for now
+✅ Decided to use local development (8 GB RAM laptop)
+✅ Agreed to use Docker locally, not EC2 for now
+✅ Safe checkpoint reached (nothing half‑built or broken)
+
+
+Important:
+You have not yet implemented business logic or schemas.
+
+
+⏳ What Is Left (High‑Level)
+Still to be built (in order):
+
+Event schema v1 (Pydantic)
+FastAPI /events ingestion endpoint
+Kafka + Zookeeper via Docker
+Async Kafka producer
+DLQ handling
+Snowflake streaming ingestion
+Airflow orchestration (later, standalone)
+Backfill strategy, deletes, data quality
+
+
+▶️ Immediate Next Action (Very Explicit)
+Install Docker locally on your laptop and verify it runs.
+Nothing else yet.
+
+🧾 Summary So Far (One Paragraph)
+You are building a real‑time data platform using FastAPI, Kafka, Snowflake Streaming, Airflow, and Docker. The architecture is frozen, Kafka is the central backbone, and components will be run in phases on a local machine with limited RAM. A complete repo scaffold exists, but no functional code has been implemented yet. You skipped process overhead (issues/labels) intentionally and are proceeding step‑by‑step. The current checkpoint is clean and safe, and the next required step is installing Docker locally.
